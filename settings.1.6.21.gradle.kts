@@ -1,0 +1,24 @@
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "KuiklyUI"
+rootProject.buildFileName = "build.1.6.21.gradle.kts"
+
+val buildFileName = "build.1.6.21.gradle.kts"
+include(":core-annotations")
+project(":core-annotations").buildFileName = buildFileName
+include(":core-ksp")
+project(":core-ksp").buildFileName = buildFileName
+
+
+include(":core")
+project(":core").buildFileName = buildFileName
+include(":core-render-android")
+project(":core-render-android").buildFileName = buildFileName
+// include(":demo")
+// include(":androidApp")

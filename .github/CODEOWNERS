@@ -1,0 +1,41 @@
+#####################################################
+#
+# List of approvers for KuiklyUI
+#
+#####################################################
+#
+# Learn about CODEOWNERS file format:
+#  https://help.github.com/en/articles/about-code-owners
+#
+
+# universal files
+* @Cyunong @iPel @hidawei @elixxli
+/README.md @hidawei
+/buildSrc/ @elixxli
+/androidApp/ @hidawei @elixxli
+/core/ @iPel @hidawei
+/core-annotations/ @elixxli
+/core-kapt/ @elixxli
+/core-ksp/ @elixxli
+/core-render-android/ @iPel @hidawei
+/core-render-ios/ @Cyunong
+/demo/ @hidawei
+/gradle/ @elixxli
+/img/ @hidawei
+/iosApp/ @Cyunong
+/*.sh @elixxli @iPel
+/*.gradle.kts @elixxli @iPel
+/CODE_OF_CONDUCT.md @hidawei
+/CONTRIBUTING.md @hidawei
+/LICENSE @hidawei
+/README* @hidawei
+/OpenKuiklyIOSRender.podspec @Cyunong
+/gradlew*  @elixxli @iPel
+/.gitignore @iPel @hidawei
+
+
+
+
+
+
+

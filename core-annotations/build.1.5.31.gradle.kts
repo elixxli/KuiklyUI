@@ -1,0 +1,46 @@
+plugins {
+    kotlin("multiplatform")
+//    kotlin("native.cocoapods")
+    id("com.android.library")
+    id("maven-publish")
+}
+
+group = MavenConfig.GROUP
+version = Version.getCoreVersion()
+
+publishing {
+    repositories {
+        val username = MavenConfig.getUsername(project)
+        val password = MavenConfig.getPassword(project)
+        if (username.isNotEmpty() && password.isNotEmpty()) {
+            maven {
+                credentials {
+                    setUsername(username)
+                    setPassword(password)
+                }
+                url = uri(MavenConfig.getRepoUrl(version as String))
+            }
+        } else {
+            mavenLocal()
+        }
+    }
+}
+
+kotlin {
+    jvm()
+
+    android()
+
+    sourceSets {
+        val commonMain by getting
+    }
+}
+
+android {
+    compileSdk = 32
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 32
+    }
+}

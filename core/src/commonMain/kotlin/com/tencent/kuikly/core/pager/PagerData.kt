@@ -1,0 +1,122 @@
+/*
+ * Tencent is pleased to support the open source community by making KuiklyUI
+ * available.
+ * Copyright (C) 2025 THL A29 Limited, a Tencent company. All rights reserved.
+ * Licensed under the License of KuiklyUI;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * https://github.com/Tencent-TDS/KuiklyUI/blob/main/LICENSE
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.tencent.kuikly.core.pager
+
+import com.tencent.kuikly.core.base.EdgeInsets
+import com.tencent.kuikly.core.base.toBoolean
+import com.tencent.kuikly.core.nvi.serialization.json.JSONObject
+import com.tencent.kuikly.core.reactive.handler.observable
+import com.tencent.kuikly.core.utils.urlParams
+/*
+ * 页面数据（包含设备信息和平台以及根视图宽高，以及页面传参params）
+ */
+class PageData() {
+    private lateinit var rawPageData : JSONObject
+    // 页面参数（页面携带参数&扩展参数都在该数据里，可打印查看所有数据）
+    val params: JSONObject
+        get() {
+            return rawPageData.optJSONObject(KEY_PARAM) ?: JSONObject()
+        }
+    var pageViewWidth: Float by observable(0.0f)
+    var pageViewHeight: Float by observable(0.0f)
+    var statusBarHeight: Float = 0.0f
+        private set
+    var deviceHeight: Float = 0.0f
+        private set
+    var deviceWidth: Float = 0.0f
+        private set
+    var appVersion: String = ""
+        private set
+    var platform: String = ""
+        private set
+    var isIOS: Boolean = false
+        private set
+    var isAndroid: Boolean = false
+        private set
+    var isOhOs: Boolean = false
+        private set
+    var isIphoneX: Boolean = false
+        private set
+    var navigationBarHeight: Float = 0.0f
+        private set
+    var nativeBuild: Int = 0
+        private set
+    var activityWidth: Float by observable(0.0f)
+        internal set
+    var activityHeight: Float by observable(0.0f)
+        internal set
+    /** 安全区域是指不被系统界面（如状态栏、导航栏、工具栏或底部 Home 指示器、刘海屏底部边距）遮挡的视图区域 */
+    var safeAreaInsets: EdgeInsets by observable(EdgeInsets.default)
+
+    var density: Float = 3f
+        internal set
+
+    fun init(pageData: JSONObject) {
+        this.rawPageData = pageData
+        pageViewWidth = pageData.optDouble(ROOT_VIEW_WIDTH).toFloat()
+        pageViewHeight = pageData.optDouble(ROOT_VIEW_HEIGHT).toFloat()
+        statusBarHeight = pageData.optDouble(STATUS_BAR_HEIGHT).toFloat()
+        deviceHeight = pageData.optDouble(DEVICE_HEIGHT).toFloat()
+        deviceWidth = pageData.optDouble(DEVICE_WIDTH).toFloat()
+        appVersion = pageData.optString(APP_VERSION, "")
+        platform =  pageData.optString(PLATFORM, "")
+        nativeBuild = pageData.optInt(NATIVE_BUILD, 0)
+        isIOS = platform == "iOS"
+        isAndroid = platform == "android"
+        isOhOs = platform == PLATFORM_OHOS
+        navigationBarHeight = statusBarHeight + 44
+        isIphoneX = isIOS && statusBarHeight > 30
+        activityWidth = pageData.optDouble(ACTIVITY_WIDTH, 0.0).toFloat()
+        activityHeight = pageData.optDouble(ACTIVITY_HEIGHT, 0.0).toFloat()
+        val safeAreaInsetsString = pageData.optString(SAFE_AREA_INSETS, "")
+        if (safeAreaInsetsString.isNotEmpty()) {
+            safeAreaInsets = EdgeInsets.decodeWithString(safeAreaInsetsString)
+        }
+        density = pageData.optDouble(DENSITY, 3.0).toFloat() // use 3(xxhdpi) for backwards compatibility
+        mergeUrlParamsToPageParams()
+    }
+
+    private fun mergeUrlParamsToPageParams() {
+        if (rawPageData.optJSONObject(KEY_PARAM) == null) {
+            rawPageData.put(KEY_PARAM, JSONObject())
+        }
+        rawPageData.optJSONObject(KEY_PARAM)?.also { params ->
+            urlParams(rawPageData.optString(URL) ?: "").forEach { (k, v) ->
+                params.put(k, v)
+            }
+        }
+    }
+
+    fun isDebug(): Boolean = params.optBoolean("isDebug", false)
+
+    companion object {
+        private const val KEY_PARAM = "param"
+        private const val URL = "url"
+        private const val ROOT_VIEW_WIDTH = "rootViewWidth"
+        private const val ROOT_VIEW_HEIGHT = "rootViewHeight"
+        private const val STATUS_BAR_HEIGHT = "statusBarHeight"
+        private const val DEVICE_WIDTH = "deviceWidth"
+        private const val DEVICE_HEIGHT = "deviceHeight"
+        private const val APP_VERSION = "appVersion"
+        private const val PLATFORM = "platform"
+        private const val NATIVE_BUILD = "nativeBuild"
+        private const val SAFE_AREA_INSETS = "safeAreaInsets"
+        private const val ACTIVITY_WIDTH = "activityWidth"
+        private const val ACTIVITY_HEIGHT = "activityHeight"
+        private const val DENSITY = "density"
+        const val PLATFORM_OHOS = "ohos"
+    }
+}
