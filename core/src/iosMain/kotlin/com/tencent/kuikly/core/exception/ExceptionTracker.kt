@@ -13,10 +13,11 @@
  * limitations under the License.
  */
 
+@file:OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 package com.tencent.kuikly.core.exception
 
 import com.tencent.kuikly.core.manager.BridgeManager
-import kotlin.native.concurrent.AtomicReference
+import kotlin.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 
 object ExceptionTracker {

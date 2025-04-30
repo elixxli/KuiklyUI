@@ -135,9 +135,9 @@ object Version {
     const val MATERIAL_VERSION = "1.4.0"
     const val SNAPSHOT_SUFFIX = "-SNAPSHOT"
 
-    const val DEFAULT_KUIKLY_VERSION = "1.1.0-beta5"
-    private const val DEFAULT_KOTLIN_VERSION = "1.7.20"
-    private const val DEFAULT_AGP_VERSION = "7.1.3"
+    const val DEFAULT_KUIKLY_VERSION = "2.0.0"
+    private const val DEFAULT_KOTLIN_VERSION = "2.0.21"
+    private const val DEFAULT_AGP_VERSION = "7.4.2"
 
     private const val KEY_KUIKLY_VERSION = "KUIKLY_VERSION"
     private const val KEY_KOTLIN_VERSION = "KUIKLY_KOTLIN_VERSION"
@@ -230,7 +230,7 @@ object Version {
             "1.8.21" -> "1.8.21-1.0.11"
             "1.9.22" -> "1.9.22-1.0.16"
             "2.0.21" -> "2.0.21-1.0.27"
-            else -> "${getKotlinVersion()}-1.0.7" // 默认版本
+            else -> "${getKotlinVersion()}-1.0.27" // 默认版本
         }
     }
 

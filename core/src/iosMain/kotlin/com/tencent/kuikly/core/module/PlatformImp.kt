@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 package com.tencent.kuikly.core.module
 
 import kotlinx.cinterop.ByteVar

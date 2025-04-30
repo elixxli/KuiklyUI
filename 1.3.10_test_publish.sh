@@ -5,6 +5,18 @@ echo "origin gradle url: $ORIGIN_DISTRIBUTION_URL"
 NEW_DISTRIBUTION_URL="https\:\/\/services.gradle.org\/distributions\/gradle-5.4.1-bin.zip"
 sed -i.bak "s/distributionUrl=.*$/distributionUrl=$NEW_DISTRIBUTION_URL/" gradle/wrapper/gradle-wrapper.properties
 
+# 3. 解决语法问题
+ios_main_dir="core/src/iosMain/kotlin/com/tencent/kuikly"
+
+ios_platform_impl="$ios_main_dir/core/module/PlatformImp.kt"
+sed -i.bak '/@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)/d' "$ios_platform_impl"
+
+ios_exception_tracker="$ios_main_dir/core/exception/ExceptionTracker.kt"
+sed -i.bak \
+    -e '/@file:OptIn(kotlin\.experimental\.ExperimentalNativeApi::class)/d' \
+    -e 's/import kotlin\.concurrent\.AtomicReference/import kotlin.native.concurrent.AtomicReference/g' \
+    "$ios_exception_tracker"
+
 # 是否兼容 support
 KUIKLY_ENABLE_ANDROID_SUPPORT_COMPATIBLE=0
 
@@ -31,6 +43,7 @@ echo $core_convert_util_file
 sed -i.bak 's/md5L16\.encodeToByteArray()/md5L16\.toByteArray(Charsets.UTF_8)/g' $core_convert_util_file
 
 # 构建
+./gradlew --stop
 KUIKLY_AGP_VERSION="3.5.4" KUIKLY_KOTLIN_VERSION="1.3.10" ./gradlew -c settings.1.3.10.gradle.kts :core-annotations:publishToMavenLocal --stacktrace
 KUIKLY_AGP_VERSION="3.5.4" KUIKLY_KOTLIN_VERSION="1.3.10" ./gradlew -c settings.1.3.10.gradle.kts :core-kapt:publishToMavenLocal --stacktrace
 KUIKLY_AGP_VERSION="3.5.4" KUIKLY_KOTLIN_VERSION="1.3.10" ./gradlew -c settings.1.3.10.gradle.kts :core:publishToMavenLocal --stacktrace
@@ -51,3 +64,5 @@ fi
 # 还原其他文件
 mv gradle/wrapper/gradle-wrapper.properties.bak gradle/wrapper/gradle-wrapper.properties
 mv "$core_convert_util_file.bak" $core_convert_util_file
+mv "$ios_platform_impl.bak" "$ios_platform_impl"
+mv "$ios_exception_tracker.bak" "$ios_exception_tracker"

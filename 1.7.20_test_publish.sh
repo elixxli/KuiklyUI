@@ -18,12 +18,11 @@ sed -i.bak \
     -e 's/import kotlin\.concurrent\.AtomicReference/import kotlin.native.concurrent.AtomicReference/g' \
     "$ios_exception_tracker"
 
-java --version
 ./gradlew --stop
-KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.5.31" ./gradlew -c settings.1.5.31.gradle.kts :core:publishToMavenLocal --stacktrace
-KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.5.31" ./gradlew -c settings.1.5.31.gradle.kts :core-annotations:publishToMavenLocal --stacktrace
-KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.5.31" ./gradlew -c settings.1.5.31.gradle.kts :core-ksp:publishToMavenLocal --stacktrace
-KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.5.31" ./gradlew -c settings.1.5.31.gradle.kts :core-render-android:publishToMavenLocal --stacktrace
+KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.7.20" ./gradlew -c settings.1.7.20.gradle.kts :core:publishToMavenLocal --stacktrace
+KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.7.20" ./gradlew -c settings.1.7.20.gradle.kts :core-annotations:publishToMavenLocal --stacktrace
+KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.7.20" ./gradlew -c settings.1.7.20.gradle.kts :core-ksp:publishToMavenLocal --stacktrace
+KUIKLY_AGP_VERSION="7.1.3" KUIKLY_KOTLIN_VERSION="1.7.20" ./gradlew -c settings.1.7.20.gradle.kts :core-render-android:publishToMavenLocal --stacktrace
 
 # 5. 还原其他文件
 mv gradle/wrapper/gradle-wrapper.properties.bak gradle/wrapper/gradle-wrapper.properties

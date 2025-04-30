@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.konan.target.Family
-
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -30,57 +27,33 @@ publishing {
 }
 
 kotlin {
-    // targetes
     jvm()
 
-    androidTarget {
-        publishLibraryVariantsGroupedByFlavor = true
-        publishLibraryVariants("release")
-    }
+    android()
 
-    iosSimulatorArm64()
-    iosX64()
     iosArm64()
-
-
-    // sourceSets
-    val commonMain by sourceSets.getting
-
-    sourceSets.iosMain {
-        dependsOn(commonMain)
-    }
-
-//    val iosMain by sourceSets.creating {
-//        dependsOn(commonMain)
-//    }
-
-    targets.withType<KotlinNativeTarget> {
-        val mainSourceSets = this.compilations.getByName("main").defaultSourceSet
-        when {
-            konanTarget.family.isAppleFamily -> {
-                mainSourceSets.dependsOn(sourceSets.getByName("iosMain"))
-            }
-        }
-    }
+    iosX64()
+    iosSimulatorArm64()
 
 //    cocoapods {
 //        summary = "Some description for the Shared Module"
 //        homepage = "Link to the Shared Module homepage"
 //        ios.deploymentTarget = "14.1"
-//        if (!buildForAndroidCompat) {
-//            framework {
-//                isStatic = true
-//                baseName = "kuiklyCore"
-//            }
-//        }
+////        framework {
+////            baseName = "core-annotations"
+////        }
 //    }
+    
+    sourceSets {
+        val commonMain by getting
+    }
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 32
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 32
     }
 }

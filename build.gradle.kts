@@ -1,5 +1,5 @@
 plugins {
-    id("com.google.devtools.ksp") version(Version.getKSPVersion())
+    id("com.google.devtools.ksp") version(Version.getKSPVersion()) apply false
 }
 
 buildscript {
@@ -9,7 +9,6 @@ buildscript {
         mavenCentral()
         mavenLocal()
     }
-
     dependencies {
         classpath(BuildPlugin.kotlin)
         classpath(BuildPlugin.android)
