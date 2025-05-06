@@ -24,4 +24,5 @@ jobs:
       - name: Build with Gradle
         run: |
           echo "Hello world"
+          ./gradlew --stop
           ./gradlew clean :core:assemble
