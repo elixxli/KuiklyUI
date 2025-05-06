@@ -14,6 +14,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - run: |
-          echo Hello world
+
+      - name: Setup environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: Build with Gradle
+        run: |
+          echo "Hello world"
           ./gradlew clean :core:assemble
