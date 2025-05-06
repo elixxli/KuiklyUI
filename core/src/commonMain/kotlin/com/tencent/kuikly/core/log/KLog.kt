@@ -47,4 +47,7 @@ object KLog {
     private const val METHOD_LOG_INFO = "logInfo"
     private const val METHOD_LOG_DEBUG = "logDebug"
     private const val METHOD_LOG_ERROR = "logError"
+
+
+
 }
