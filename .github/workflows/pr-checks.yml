@@ -21,6 +21,11 @@ jobs:
           java-version: 11
           distribution: 'zulu'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 12266719
+
       - name: Build with Gradle
         run: |
           echo "Hello world"
