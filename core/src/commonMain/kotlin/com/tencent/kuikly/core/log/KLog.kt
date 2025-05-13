@@ -48,3 +48,4 @@ object KLog {
     private const val METHOD_LOG_DEBUG = "logDebug"
     private const val METHOD_LOG_ERROR = "logError"
 }
+fasfga
