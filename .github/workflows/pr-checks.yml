@@ -10,7 +10,7 @@ on:
 
 jobs:
   CI:
-    runs-on: self-hosted
+    runs-on: macOS-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
