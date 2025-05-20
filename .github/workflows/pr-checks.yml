@@ -31,3 +31,6 @@ jobs:
           echo "Hello world"
           ./gradlew --stop
           ./gradlew clean :core:assemble
+          ./gradlew clean :core-annotations:assemble
+          ./gradlew clean :core-ksp:core:assemble
+          ./gradlew clean :core-render-android:assemble
