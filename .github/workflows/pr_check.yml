@@ -1,0 +1,27 @@
+name: pr request check
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: aar check
+        run: |
+          ./gradlew clean :core-annotations:assemble
+          ./gradlew clean :core:assemble
+          ./gradlew clean :core-ksp:assemble
+          ./gradlew clean :core-render-android:assemble
+          ./gradlew clean :compose:assemble
+          ./gradlew clean
