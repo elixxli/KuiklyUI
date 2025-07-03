@@ -17,6 +17,9 @@ jobs:
           java-version: 11
           distribution: 'zulu'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: aar check
         run: |
           ./gradlew clean :core-annotations:assemble
