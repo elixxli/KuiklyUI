@@ -26,3 +26,4 @@ project(":core-render-android").buildFileName = buildFileName
 include(":compose")
 
 rootProject.buildFileName = buildFileName
+
