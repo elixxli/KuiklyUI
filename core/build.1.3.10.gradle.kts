@@ -38,7 +38,8 @@ afterEvaluate {
 //            tasks.named("publishReleasePublicationToMavenRepository").configure {
 //                dependsOn("bundleReleaseAar")
 //            }
-            signPublicationIfKeyPresent(project)
+//            signPublicationIfKeyPresent(project)
+//            pom.configureMavenCentralMetadata()
         }
     }
 
