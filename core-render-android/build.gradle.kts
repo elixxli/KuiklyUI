@@ -72,4 +72,5 @@ dependencies {
     compileOnly("androidx.core:core-ktx:1.7.0")
     compileOnly("androidx.appcompat:appcompat:1.4.2")
     compileOnly("androidx.dynamicanimation:dynamicanimation:1.0.0")
+
 }
