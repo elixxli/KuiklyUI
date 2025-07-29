@@ -6,7 +6,7 @@ on:
 
 jobs:
   detect-changes:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     outputs:
       compose_changed: ${{ steps.check.outputs.compose }}
       core_changed: ${{ steps.check.outputs.core }}
