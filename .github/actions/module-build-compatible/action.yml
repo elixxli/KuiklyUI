@@ -1,0 +1,64 @@
+name: Kuikly Module Build Compatible Template
+
+on:
+  workflow_call:
+    inputs:
+      module-name:
+        required: true
+        type: string
+
+jobs:
+  build-module:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 8512546
+
+      - name: build module
+        run: |
+          # 1.记录原始url
+          ORIGIN_DISTRIBUTION_URL=$(grep "distributionUrl" gradle/wrapper/gradle-wrapper.properties | cut -d "=" -f 2)
+          echo "origin gradle url: $ORIGIN_DISTRIBUTION_URL"
+          # 2.切换gradle版本
+          NEW_DISTRIBUTION_URL="https\:\/\/services.gradle.org\/distributions\/gradle-5.4.1-bin.zip"
+          sed -i.bak "s/distributionUrl=.*$/distributionUrl=$NEW_DISTRIBUTION_URL/" gradle/wrapper/gradle-wrapper.properties
+          
+          # 是否兼容 support
+          KUIKLY_ENABLE_ANDROID_SUPPORT_COMPATIBLE=0
+          current_dir=$PWD
+          core_render_android_dir=$current_dir/core-render-android/src/main/java
+          core_convert_util_file=$current_dir/core/src/commonMain/kotlin/com/tencent/kuikly/core/utils/ConvertUtil.kt
+          core_pager_manager=$current_dir/core/src/commonMain/kotlin/com/tencent/kuikly/core/manager/PagerManager.kt
+          kuikly_kotlin_build_var=$current_dir/buildSrc/src/main/java/KuiklyKotlinBuildVar.kt
+          
+          
+          # ConvertUtil的encodeToByteArray替换成toByteArray、lowercase → toLowerCase
+          echo $core_convert_util_file
+          sed -i.bak -e 's/md5L16\.encodeToByteArray()/md5L16\.toByteArray(Charsets.UTF_8)/g' \
+          -e 's/lowercase/toLowerCase/g' $core_convert_util_file
+          
+          # PagerManager的lowercase替换成toLowerCase
+          echo "$core_pager_manager"
+          sed -i.bak 's/lowercase/toLowerCase/g' "$core_pager_manager"
+          
+          # buildSrc替换useInMemoryPgpKeys方法
+          sed -i.bak 's/useInMemoryPgpKeys(keyId, secretKey, password)/useInMemoryPgpKeys(secretKey, password)/g' "$kuikly_kotlin_build_var"
+          
+          KUIKLY_AGP_VERSION="3.5.4" KUIKLY_KOTLIN_VERSION="1.3.10" ./gradlew -c settings.1.3.10.gradle.kts clean :${{ inputs.module-name }}:pTML
+          
+          # 还原其他文件
+          mv gradle/wrapper/gradle-wrapper.properties.bak gradle/wrapper/gradle-wrapper.properties
+          mv "$core_convert_util_file.bak" $core_convert_util_file
+          mv "$core_pager_manager.bak" "$core_pager_manager"
+          mv "$kuikly_kotlin_build_var.bak" $kuikly_kotlin_build_var

@@ -30,6 +30,6 @@ jobs:
   build-compose:
     needs: detect-changes
     if: needs.detect-changes.outputs.compose_changed == 'true'
-    uses: ./.github/templates/module_build.yml
+    uses: ./.github/actions/module-build
     with:
       module-name: 'compose'
