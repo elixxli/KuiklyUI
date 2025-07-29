@@ -25,6 +25,6 @@ jobs:
         with:
           cmdline-tools-version: 8512546
 
-      - name: build module
+      - name: build ${{ inputs.module-name }}
         run: |
-          ./gradlew clean :${{ inputs.module-name }}:assemble
+          ./gradlew clean :${{ inputs.module-name }}:pTML
