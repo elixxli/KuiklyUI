@@ -2,7 +2,7 @@ name: pr request check
 
 on:
   pull_request:
-    branches: [personal/elixxli_mr_ci]
+    branches: [main]
 
 jobs:
   detect-changes:
