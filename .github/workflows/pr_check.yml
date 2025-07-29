@@ -16,6 +16,8 @@ jobs:
       core_kapt_changed: ${{ steps.check.outputs.core_kapt }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Detect changed modules
         id: check
         run: |
@@ -25,7 +27,6 @@ jobs:
           echo "core_render_android=$(git diff --name-only HEAD^ HEAD | grep -q 'core-render-android/' && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo "compose=$(git diff --name-only HEAD^ HEAD | grep -q 'compose/' && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo "core_kapt=$(git diff --name-only HEAD^ HEAD | grep -q 'core-kapt/' && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
-          echo 1111
 
   build-compose:
     needs: detect-changes
@@ -36,7 +37,7 @@ jobs:
 
   build-core-compatible:
     needs: detect-changes
-    if: needs.detect-changes.outputs.core == 'true'
+    if: needs.detect-changes.outputs.core_changed == 'true'
     uses: ./.github/workflows/module_build_compatible.yml
     with:
       module-name: 'core'
