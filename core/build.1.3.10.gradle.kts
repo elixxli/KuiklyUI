@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("maven-publish")
     signing
+
 }
 
 group = MavenConfig.GROUP

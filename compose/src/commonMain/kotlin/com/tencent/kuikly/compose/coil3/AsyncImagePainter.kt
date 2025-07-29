@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 @NonRestartableComposable
 fun rememberAsyncImagePainter(
     model: String?,
-    placeholder: Painter? = null,
+    placeholder: Paixnter? = null,
     error: Painter? = null,
     fallback: Painter? = error,
     onLoading: ((State.Loading) -> Unit)? = null,
