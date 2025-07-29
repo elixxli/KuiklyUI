@@ -26,3 +26,10 @@ jobs:
           echo "compose=$(git diff --name-only HEAD^ HEAD | grep -q 'compose/' && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo "core_kapt=$(git diff --name-only HEAD^ HEAD | grep -q 'core-kapt/' && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo 1111
+
+  build-compose:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.compose_changed == 'true'
+    uses: ./.github/templates/module_build.yml
+    with:
+      module-name: 'compose'
