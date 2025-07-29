@@ -64,7 +64,7 @@ jobs:
 
   build-core-compatible:
     needs: detect-changes
-    if: needs.detect-changes.outputs.core == 'true'
+    if: needs.detect-changes.outputs.core_changed == 'true'
     uses: ./.github/workflows/templates/module_build_compatible.yml
     with:
       module-name: 'core'
