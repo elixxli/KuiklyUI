@@ -29,35 +29,35 @@ jobs:
   build-compose:
     needs: detect-changes
     if: needs.detect-changes.outputs.compose_changed == 'true'
-    uses: ./.github/workflows/templates/module_build.yml
+    uses: ./.github/templates/module_build.yml
     with:
       module-name: 'compose'
 
   build-core:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_changed == 'true'
-    uses: ./.github/workflows/templates/module_build.yml
+    uses: ./.github/templates/module_build.yml
     with:
       module-name: 'core'
 
   build-core-render-android:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_render_android_changed == 'true'
-    uses: ./.github/workflows/templates/module_build.yml
+    uses: ./.github/templates/module_build.yml
     with:
       module-name: 'core-render-android'
 
   build-core-ksp:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_ksp_changed == 'true'
-    uses: ./.github/workflows/templates/module_build.yml
+    uses: ./.github/templates/module_build.yml
     with:
       module-name: 'core-ksp'
 
   build-core-annotations:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_annotations_changed == 'true'
-    uses: ./.github/workflows/templates/module_build.yml
+    uses: ./.github/templates/module_build.yml
     with:
       module-name: 'core-annotations'
 
@@ -65,27 +65,27 @@ jobs:
   build-core-compatible:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_changed == 'true'
-    uses: ./.github/workflows/templates/module_build_compatible.yml
+    uses: ./.github/templates/module_build_compatible.yml
     with:
       module-name: 'core'
 
   build-core-render-android-compatible:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_render_android_changed == 'true'
-    uses: ./.github/workflows/templates/module_build_compatible.yml
+    uses: ./.github/templates/module_build_compatible.yml
     with:
       module-name: 'core-render-android'
 
   build-core-annotations-compatible:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_annotations_changed == 'true'
-    uses: ./.github/workflows/templates/module_build_compatible.yml
+    uses: ./.github/templates/module_build_compatible.yml
     with:
       module-name: 'core-annotations'
 
   build-core-kapt-compatible:
     needs: detect-changes
     if: needs.detect-changes.outputs.core_annotations_changed == 'true'
-    uses: ./.github/workflows/templates/module_build_compatible.yml
+    uses: ./.github/templates/module_build_compatible.yml
     with:
       module-name: 'core-kapt'
