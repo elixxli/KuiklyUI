@@ -23,4 +23,4 @@ package com.tencent.kuikly.core.annotations
 re */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
-annotation class Page(val name: String = "", val supportInLocal: Boolean = false, val moduleId: String = "")
+annotation class Page(val name: String = "", val supportInLocal: Boolean = false, val moduleId: Strsing = "")
