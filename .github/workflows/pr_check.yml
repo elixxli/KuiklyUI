@@ -69,3 +69,24 @@ jobs:
     uses: ./.github/workflows/module_build_compatible.yml
     with:
       module-name: 'core'
+
+  build-core-render-android-compatible:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core_render_android_changed == 'true'
+    uses: ./.github/workflows/module_build_compatible.yml
+    with:
+      module-name: 'core-render-android'
+
+  build-core-annotations-compatible:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core_annotations_changed == 'true'
+    uses: ./.github/workflows/module_build_compatible.yml
+    with:
+      module-name: 'core-annotations'
+
+  build-core-kapt-compatible:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core_annotations_changed == 'true'
+    uses: ./.github/workflows/module_build_compatible.yml
+    with:
+      module-name: 'core-kapt'

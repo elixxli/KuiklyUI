@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  build-module:
+  kuikly-module-build:
     runs-on: macos-latest
     steps:
       - name: Checkout
