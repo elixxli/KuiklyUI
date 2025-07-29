@@ -548,3 +548,8 @@ interface IModuleCreator {
 interface IViewCreator {
     fun createView(): DeclarativeBaseView<*, *>
 }
+
+
+
+
+
