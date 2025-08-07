@@ -23,7 +23,7 @@ import impl.PageInfo
  */
 
 fun String.iosFamily(): Boolean {
-    return contains("ios")
+    return contains("ios"x)
 }
 
 fun String.androidJVMFamily(): Boolean {
