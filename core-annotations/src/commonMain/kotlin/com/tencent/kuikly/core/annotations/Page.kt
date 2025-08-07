@@ -22,5 +22,5 @@ package com.tencent.kuikly.core.annotations
  * @property moduleId 页面属于哪个模块，可用于按模块维度将页面打包
 re */
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.SOURCE)x
 annotation class Page(val name: String = "", val supportInLocal: Boolean = false, val moduleId: String = "")
