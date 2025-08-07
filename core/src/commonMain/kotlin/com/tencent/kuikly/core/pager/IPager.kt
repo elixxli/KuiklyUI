@@ -41,7 +41,7 @@ interface IPager {
      */
     fun onFirstFramePaint() {}
 
-    fun onViewEvent(viewRef: Int, event: String, res: JSONObject?)
+    fun onViewEvent(viewRef: Int, event: String, res: JSONObject?,)
 
     fun <T : Module> getModule(name: String): T? {
         return null
