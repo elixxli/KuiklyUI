@@ -5,6 +5,7 @@ plugins {
     signing
 }
 
+
 group = MavenConfig.GROUP
 version = Version.getRenderVersion()
 
