@@ -8,6 +8,7 @@ plugins {
 group = MavenConfig.GROUP
 version = Version.INSTANCE.getCoreVersion()
 
+
 afterEvaluate {
     publishing {
         repositories {
