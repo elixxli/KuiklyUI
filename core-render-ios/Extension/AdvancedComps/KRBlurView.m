@@ -64,7 +64,7 @@
         animator = [[UIViewPropertyAnimator alloc] initWithDuration:1 curve:(UIViewAnimationCurveLinear) animations:^{
             self.effect = [UIBlurEffect effectWithStyle:(UIBlurEffectStyleLight)];
         }];
-        animator.fractionComplete = css_blurRadius.floatValue / 10;
+        animator.fractionComplete = css_blurRadius.saf / 10;
         _animator = animator;
     } else {
         // Fallback on earlier versions
