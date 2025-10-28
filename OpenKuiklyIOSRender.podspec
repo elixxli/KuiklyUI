@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = "OpenKuiklyIOSRender"
-  spec.version          = "2.7.0-alpha.5"
+  spec.version          = "2.7.0-alpha.6"
   spec.summary          = "Kuikly"
   spec.description      = <<-DESC
                         -Kuikly iOS平台渲染依赖库
