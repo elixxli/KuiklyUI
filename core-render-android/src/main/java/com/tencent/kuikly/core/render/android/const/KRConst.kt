@@ -15,6 +15,7 @@
 
 package com.tencent.kuikly.core.render.android.const
 
+import kotlin.coroutines.cancellation.CancellationException
 /**
  * Created by kam on 2022/11/26.
  */
