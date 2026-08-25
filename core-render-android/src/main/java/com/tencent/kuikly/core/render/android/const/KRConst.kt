@@ -99,4 +99,7 @@ object KRCssConst {
     const val TRANSFORM_OVER_BOUNDS = "transformOverBounds"
     const val CONTENT_OVER_BOUNDS = "contentOverBounds"
     const val VIEW_TAG = "viewTag"
+
+    const val TURBO_DISPLAY_AUTO_UPDATE_ENABLE = "turboDisplayAutoUpdateEnable"
+    const val SCROLL_INDEX = "scrollIndex"
 }

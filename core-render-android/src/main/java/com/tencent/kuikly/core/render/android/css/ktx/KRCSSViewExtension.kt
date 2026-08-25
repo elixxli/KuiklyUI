@@ -52,6 +52,46 @@ import com.tencent.kuikly.core.render.android.export.KuiklyRenderCallback
 import org.json.JSONObject
 
 /**
+ * 获取基础属性列表
+ *
+ * 注意: 如果有新增基础属性，需要在这里加上 key
+ */
+fun createBaseAtrKeySet(): Set<String> {
+    return setOf(
+        KRCssConst.OPACITY,
+        KRCssConst.VISIBILITY,
+        KRCssConst.OVERFLOW,
+        KRCssConst.BACKGROUND_COLOR,
+        KRCssConst.TOUCH_ENABLE,
+        KRCssConst.TRANSFORM,
+        KRCssConst.BACKGROUND_IMAGE,
+        KRCssConst.BOX_SHADOW,
+        KRCssConst.BORDER_RADIUS,
+        KRCssConst.BORDER,
+        KRCssConst.CLICK,
+        KRCssConst.DOUBLE_CLICK,
+        KRCssConst.LONG_PRESS,
+        KRCssConst.ANIMATION,
+        KRCssConst.FRAME,
+        KRCssConst.Z_INDEX,
+        KRCssConst.PAN,
+        KRCssConst.ANIMATION_COMPLETION_BLOCK,
+        KRCssConst.ACCESSIBILITY,
+        KRCssConst.DEBUG_NAME,
+        KRCssConst.AUTO_DARK_ENABLE,
+        KRCssConst.SCROLL_INDEX,
+        KRCssConst.TURBO_DISPLAY_AUTO_UPDATE_ENABLE,
+        KRCssConst.ACCESSIBILITY_ROLE,
+        KRCssConst.PREVENT_TOUCH,
+        KRCssConst.CONSUME_TOUCH_DOWN,
+        KRCssConst.ACCESSIBILITY_INFO,
+        KRCssConst.TEST_TAG,
+        KRCssConst.USE_OUTLINE,
+        KRCssConst.CLIP_PATH,
+    )
+}
+
+/**
  * 设置通用的css样式，支持的属性列表可以查看[KRCssConst]定义的属性
  * 这里为啥不用使用map<key, handler>来处理?
  * 1.通用属性不会太多, 使用when语句的可读性比map<key，handler>的方式好
