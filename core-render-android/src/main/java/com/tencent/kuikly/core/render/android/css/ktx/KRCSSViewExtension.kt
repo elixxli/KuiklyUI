@@ -52,44 +52,41 @@ import com.tencent.kuikly.core.render.android.export.KuiklyRenderCallback
 import org.json.JSONObject
 
 /**
- * 基础属性 key 集合
+ * 基础属性 key 集合（与下方 [setCommonProp] 的 when 分支一一对应）
  *
- * 注意: 如果有新增基础属性，需要同步更新这里
+ * 注意: 新增基础属性时，必须在KRCssConst新增并同时更新这里和 [setCommonProp] 的 when 分支
+ * 否则属性会被白名单拦截而不生效。
  */
-fun createBaseAtrKeySet(): Set<String> {
-    return setOf(
-        KRCssConst.OPACITY,
-        KRCssConst.PREVENT_TOUCH,
-        KRCssConst.CONSUME_TOUCH_DOWN,
-        KRCssConst.VISIBILITY,
-        KRCssConst.OVERFLOW,
-        KRCssConst.BACKGROUND_COLOR,
-        KRCssConst.TOUCH_ENABLE,
-        KRCssConst.TRANSFORM,
-        KRCssConst.BACKGROUND_IMAGE,
-        KRCssConst.BOX_SHADOW,
-        KRCssConst.BORDER_RADIUS,
-        KRCssConst.BORDER,
-        KRCssConst.CLICK,
-        KRCssConst.DOUBLE_CLICK,
-        KRCssConst.LONG_PRESS,
-        KRCssConst.ANIMATION,
-        KRCssConst.FRAME,
-        KRCssConst.Z_INDEX,
-        KRCssConst.PAN,
-        KRCssConst.ANIMATION_COMPLETION_BLOCK,
-        KRCssConst.ACCESSIBILITY,
-        KRCssConst.ACCESSIBILITY_INFO,
-        KRCssConst.DEBUG_NAME,
-        KRCssConst.AUTO_DARK_ENABLE,
-        KRCssConst.ACCESSIBILITY_ROLE,
-        KRCssConst.TEST_TAG,
-        KRCssConst.USE_OUTLINE,
-        KRCssConst.CLIP_PATH,
-        KRCssConst.SCROLL_INDEX,
-        KRCssConst.TURBO_DISPLAY_AUTO_UPDATE_ENABLE
-    )
-}
+internal val BASE_ATTR_KEY_SET: Set<String> = setOf(
+    KRCssConst.OPACITY,
+    KRCssConst.PREVENT_TOUCH,
+    KRCssConst.CONSUME_TOUCH_DOWN,
+    KRCssConst.VISIBILITY,
+    KRCssConst.OVERFLOW,
+    KRCssConst.BACKGROUND_COLOR,
+    KRCssConst.TOUCH_ENABLE,
+    KRCssConst.TRANSFORM,
+    KRCssConst.BACKGROUND_IMAGE,
+    KRCssConst.BOX_SHADOW,
+    KRCssConst.BORDER_RADIUS,
+    KRCssConst.BORDER,
+    KRCssConst.CLICK,
+    KRCssConst.DOUBLE_CLICK,
+    KRCssConst.LONG_PRESS,
+    KRCssConst.ANIMATION,
+    KRCssConst.FRAME,
+    KRCssConst.Z_INDEX,
+    KRCssConst.PAN,
+    KRCssConst.ANIMATION_COMPLETION_BLOCK,
+    KRCssConst.ACCESSIBILITY,
+    KRCssConst.ACCESSIBILITY_INFO,
+    KRCssConst.DEBUG_NAME,
+    KRCssConst.AUTO_DARK_ENABLE,
+    KRCssConst.ACCESSIBILITY_ROLE,
+    KRCssConst.TEST_TAG,
+    KRCssConst.USE_OUTLINE,
+    KRCssConst.CLIP_PATH
+)
 
 /**
  * 设置通用的css样式，支持的属性列表可以查看[KRCssConst]定义的属性
@@ -109,7 +106,9 @@ fun View.setCommonProp(key: String, value: Any): Boolean {
     if (tryAddAnimationOperation(key, value)) {
         return true
     }
-
+    if (key !in BASE_ATTR_KEY_SET) {
+        return false
+    }
     return when (key) {
         KRCssConst.OPACITY -> {
             opacity = (value as Number).toFloat()
@@ -286,6 +285,9 @@ fun View.hasCustomClipPath(): Boolean {
  * @return 是否处理
  */
 fun View.resetCommonProp(propKey: String): Boolean {
+    if (propKey !in BASE_ATTR_KEY_SET) {
+        return false
+    }
     when (propKey) {
         KRCssConst.OPACITY -> {
             opacity = 1f
@@ -341,6 +343,7 @@ fun View.resetCommonProp(propKey: String): Boolean {
         }
         KRCssConst.PAN -> {
             resetEventListener()
+            return true
         }
         KRCssConst.ANIMATION -> {
             setHRAnimation(null)
@@ -380,6 +383,7 @@ fun View.resetCommonProp(propKey: String): Boolean {
             removeViewData<String>(KRCssConst.ACCESSIBILITY_ROLE)
             accessibilityDelegate = null
             resetAccessibilityImportance()
+            return true
         }
         KRCssConst.CLIP_PATH -> {
             destroyViewDecorator()
