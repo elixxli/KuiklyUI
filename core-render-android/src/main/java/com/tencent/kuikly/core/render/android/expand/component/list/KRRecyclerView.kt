@@ -1603,7 +1603,7 @@ class KRRecyclerView : RecyclerView, IKuiklyRenderViewExport, NestedScrollingChi
         }
 
         startNestedScroll(
-            if (type == ViewCompat.TYPE_TOUCH) SCROLL_AXIS_NONE else mNestedScrollAxesNonTouch,
+            if (type == ViewCompat.TYPE_TOUCH) mNestedScrollAxesTouch else mNestedScrollAxesNonTouch,
             type
         )
     }
