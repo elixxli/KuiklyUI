@@ -52,13 +52,15 @@ import com.tencent.kuikly.core.render.android.export.KuiklyRenderCallback
 import org.json.JSONObject
 
 /**
- * 获取基础属性列表
+ * 基础属性 key 集合
  *
- * 注意: 如果有新增基础属性，需要在这里加上 key
+ * 注意: 如果有新增基础属性，需要同步更新这里
  */
 fun createBaseAtrKeySet(): Set<String> {
     return setOf(
         KRCssConst.OPACITY,
+        KRCssConst.PREVENT_TOUCH,
+        KRCssConst.CONSUME_TOUCH_DOWN,
         KRCssConst.VISIBILITY,
         KRCssConst.OVERFLOW,
         KRCssConst.BACKGROUND_COLOR,
@@ -77,17 +79,15 @@ fun createBaseAtrKeySet(): Set<String> {
         KRCssConst.PAN,
         KRCssConst.ANIMATION_COMPLETION_BLOCK,
         KRCssConst.ACCESSIBILITY,
+        KRCssConst.ACCESSIBILITY_INFO,
         KRCssConst.DEBUG_NAME,
         KRCssConst.AUTO_DARK_ENABLE,
-        KRCssConst.SCROLL_INDEX,
-        KRCssConst.TURBO_DISPLAY_AUTO_UPDATE_ENABLE,
         KRCssConst.ACCESSIBILITY_ROLE,
-        KRCssConst.PREVENT_TOUCH,
-        KRCssConst.CONSUME_TOUCH_DOWN,
-        KRCssConst.ACCESSIBILITY_INFO,
         KRCssConst.TEST_TAG,
         KRCssConst.USE_OUTLINE,
         KRCssConst.CLIP_PATH,
+        KRCssConst.SCROLL_INDEX,
+        KRCssConst.TURBO_DISPLAY_AUTO_UPDATE_ENABLE
     )
 }
 
@@ -102,7 +102,7 @@ fun createBaseAtrKeySet(): Set<String> {
  * @param value css样式值
  * @return 是否处理
  *
- * 注意: 如果有新增基础属性的话，需要在[createBaseAtrKeySet]中也加上
+ * 注意: 如果有新增基础属性的话，需要在[BASE_ATTR_KEY_SET]中也加上
  */
 @Suppress("UNCHECKED_CAST")
 fun View.setCommonProp(key: String, value: Any): Boolean {
