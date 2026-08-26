@@ -53,7 +53,6 @@ import com.tencent.kuikly.core.render.android.expand.module.KRPerformanceModule
 import com.tencent.kuikly.core.render.android.expand.module.KRRouterModule
 import com.tencent.kuikly.core.render.android.expand.module.KRSnapshotModule
 import com.tencent.kuikly.core.render.android.expand.module.KRReflectionModule
-import com.tencent.kuikly.core.render.android.expand.module.KRTurboDisplayModule
 import com.tencent.kuikly.core.render.android.expand.module.KRVsyncModule
 import com.tencent.kuikly.core.render.android.export.IKuiklyRenderViewExport
 import com.tencent.kuikly.core.render.android.performace.IKRMonitorCallback
@@ -62,7 +61,6 @@ import com.tencent.kuikly.core.render.android.performace.KRPerformanceData
 import com.tencent.kuikly.core.render.android.performace.KRPerformanceManager
 import com.tencent.kuikly.core.render.android.performace.frame.KRFrameMonitor
 import com.tencent.kuikly.core.render.android.performace.launch.KRLaunchData
-import com.tencent.kuikly.core.render.android.turbo.KRTurboDisplayConfig
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 
