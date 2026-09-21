@@ -15,7 +15,7 @@
 
    > `A problem occurred evaluating initialization script. Could not get unknown property 'lifecycle' for build of type org.gradle.invocation.Defaultfradle.`
    
-   > 是因为在新版本IDE上KMP插件有gradle版本要求，需要大于(8.x)，若项目有其他影响不便于升级，可以使用过去版本IDE。
+   > 是因为在新版本IDE上KMP插件有gradle版本要求，需要大于(8.x)，若项目有其他影响不便于升级，可以使用过去版本IDE：[下载链接](https://developer.android.com/studio/archive)。
 
 3.  [点击查看并安装Kuikly Android Studio插件](../DevGuide/as-plugin.md#安装)
 
