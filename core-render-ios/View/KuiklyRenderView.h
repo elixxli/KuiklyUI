@@ -114,11 +114,6 @@ FOUNDATION_EXTERN NSString *const KRRootViewSizeDidChangedEventKey;
  */
 - (void)didCreateRenderView;
 
-/*
- * @brief 重新把窗口尺寸 / 安全区发给 Kotlin。
- */
-- (void)notifyRootViewMetrics;
-
 @end
 
 

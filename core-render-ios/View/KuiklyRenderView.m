@@ -73,6 +73,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
 
 - (void)p_notifyRootViewMetrics;
 - (void)p_notifyRootViewMetricsIfRegionsChanged;
+- (UIWindow *)viewControllerHostWindow;
 - (UIEdgeInsets)p_pagerSafeAreaInsets;
 - (void)p_installHingeInteractionIfNeeded;
 - (void)p_removeHingeInteractionIfNeeded;
@@ -321,16 +322,9 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     return @"[]";
 }
 
-- (void)notifyRootViewMetrics {
-    [self p_notifyRootViewMetrics];
-}
-
 - (UIEdgeInsets)p_pagerSafeAreaInsets {
 #if TARGET_OS_OSX // [macOS]
-    NSWindow *hostWindow = nil;
-    if ([self.delegate respondsToSelector:@selector(viewControllerHostWindow)]) {
-        hostWindow = [self.delegate viewControllerHostWindow];
-    }
+    NSWindow *hostWindow = [self viewControllerHostWindow];
     if (hostWindow) {
         if (@available(macOS 11.0, *)) {
             return hostWindow.contentView.safeAreaInsets;
@@ -339,10 +333,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     return [KRConvertUtil currentSafeAreaInsets];
 #else
     if (@available(iOS 11.0, *)) {
-        UIWindow *hostWindow = nil;
-        if ([self.delegate respondsToSelector:@selector(viewControllerHostWindow)]) {
-            hostWindow = [self.delegate viewControllerHostWindow];
-        }
+        UIWindow *hostWindow = [self viewControllerHostWindow];
         if (hostWindow) {
             return hostWindow.safeAreaInsets;
         }
@@ -479,7 +470,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     mParmas[KRDeviceWidthKey] = @(deviceSize.width);
     mParmas[KRDeviceHeightKey] = @(deviceSize.height);
     mParmas[KROsVersionKey] = [[NSProcessInfo processInfo] operatingSystemVersionString] ?: @"";
-    UIWindow *window = [self.delegate viewControllerHostWindow] ?: [KRConvertUtil keyWindow];
+    UIWindow *window = [self viewControllerHostWindow] ?: [KRConvertUtil keyWindow];
     CGRect windowBounds = window.frame;
     mParmas[KRActivityWidthKey] = @(windowBounds.size.width);
     mParmas[KRActivityHeightKey] = @(windowBounds.size.height);
@@ -488,7 +479,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     mParmas[KRDeviceWidthKey] = @(CGRectGetWidth([UIScreen mainScreen].bounds));
     mParmas[KRDeviceHeightKey] = @(CGRectGetHeight([UIScreen mainScreen].bounds));
     mParmas[KROsVersionKey] = [[UIDevice currentDevice] systemVersion] ?: @"";
-    UIWindow *window = [self.delegate viewControllerHostWindow] ?: [KRConvertUtil keyWindow];
+    UIWindow *window = [self viewControllerHostWindow] ?: [KRConvertUtil keyWindow];
     CGRect windowBounds = window.bounds;
     mParmas[KRActivityWidthKey] = @(windowBounds.size.width);
     mParmas[KRActivityHeightKey] = @(windowBounds.size.height);
@@ -499,7 +490,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     // 无障碍化开关与安全区域/密度
 #if TARGET_OS_OSX // [macOS]
     mParmas[KRAccessibilityRunning] = @(0);
-    NSWindow *hostWindow = [self.delegate viewControllerHostWindow];
+    NSWindow *hostWindow = [self viewControllerHostWindow];
     if (hostWindow) {
         if (@available(macOS 11.0, *)) {
             mParmas[KRSafeAreaInsets] = [KRConvertUtil stringWithInsets:hostWindow.contentView.safeAreaInsets];
