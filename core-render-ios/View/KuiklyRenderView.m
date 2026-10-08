@@ -214,6 +214,11 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     [super didMoveToWindow];
     if (self.window) {
         [self p_installHingeInteractionIfNeeded];
+        // 初始化时 view 还没入树，自身安全区是 zero；入树后拿到真实值，这里补推一次。
+        NSString *insetsString = [KRConvertUtil stringWithInsets:[self p_pagerSafeAreaInsets]];
+        if (_lastSafeAreaInsets && ![insetsString isEqualToString:_lastSafeAreaInsets]) {
+            [self p_notifyRootViewMetrics];
+        }
     } else {
         [self p_removeHingeInteractionIfNeeded];
     }
@@ -322,7 +327,10 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
 
 - (UIEdgeInsets)p_pagerSafeAreaInsets {
 #if TARGET_OS_OSX // [macOS]
-    NSWindow *hostWindow = [self.delegate viewControllerHostWindow];
+    NSWindow *hostWindow = nil;
+    if ([self.delegate respondsToSelector:@selector(viewControllerHostWindow)]) {
+        hostWindow = [self.delegate viewControllerHostWindow];
+    }
     if (hostWindow) {
         if (@available(macOS 11.0, *)) {
             return hostWindow.contentView.safeAreaInsets;
@@ -338,7 +346,7 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
         if (hostWindow) {
             return hostWindow.safeAreaInsets;
         }
-        return [KRConvertUtil currentSafeAreaInsets];
+        return self.safeAreaInsets;
     }
     return UIEdgeInsetsMake([KRConvertUtil statusBarHeight], 0, 0, 0);
 #endif
@@ -504,17 +512,8 @@ NSString *const KRReservedRegionsKey = @"reservedRegions";
     mParmas[KRDensity] = @([NSScreen mainScreen].backingScaleFactor ?: 1.0);
 #else
     mParmas[KRAccessibilityRunning] = @(UIAccessibilityIsVoiceOverRunning() ? 1: 0);
-    if (@available(iOS 11.0, *)) {
-        UIWindow *hostWindow = [self.delegate viewControllerHostWindow];
-        if (hostWindow) {
-            mParmas[KRSafeAreaInsets] = [KRConvertUtil stringWithInsets:hostWindow.safeAreaInsets];
-        } else {
-            mParmas[KRSafeAreaInsets] = [KRConvertUtil stringWithInsets:[KRConvertUtil currentSafeAreaInsets]];
-        }
-    } else {
-        mParmas[KRSafeAreaInsets] = [KRConvertUtil stringWithInsets:UIEdgeInsetsMake([KRConvertUtil statusBarHeight], 0, 0, 0)];
-        // Fallback on earlier versions
-    }
+    // 与后续更新共用 p_pagerSafeAreaInsets，避免首包与 rootViewSizeDidChanged 口径分裂。
+    mParmas[KRSafeAreaInsets] = [KRConvertUtil stringWithInsets:[self p_pagerSafeAreaInsets]];
     _lastSafeAreaInsets = [mParmas[KRSafeAreaInsets] copy];
     mParmas[KRDensity] = @([UIScreen mainScreen].scale);
 #endif
