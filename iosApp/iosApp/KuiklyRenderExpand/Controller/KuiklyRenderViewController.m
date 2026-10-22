@@ -90,7 +90,6 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
 @end
 
 
-#define KRWeakSelf __weak typeof(self) weakSelf = self;
 @interface KuiklyRenderViewController()<KuiklyRenderViewControllerBaseDelegatorDelegate>
 
 @property (nonatomic, strong) KuiklyRenderViewControllerBaseDelegator *delegator;
@@ -134,12 +133,18 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.fd_prefersNavigationBarHidden = YES;
+    self.fd_prefersNavigationBarHidden = NO;
+    self.fd_interactivePopDisabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [_delegator viewDidLoadWithView:self.view];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self p_clearHostNavigationChrome];
+    [self.navigationController setToolbarHidden:YES animated:NO];
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self p_clearHostNavigationChrome];
+    [_delegator viewWillAppear];
 }
 
 
@@ -148,16 +153,9 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
     [_delegator viewDidLayoutSubviews];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [_delegator viewWillAppear];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [_delegator viewDidAppear];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -212,6 +210,23 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
 }
 
 #pragma mark - private
+
+/// 清掉宿主在 UINavigationItem 上的标题/按钮，避免与 Kuikly UINavigationBar 或页内 NavBar 叠出系统「< 返回」。
+- (void)p_clearHostNavigationChrome {
+    self.title = @"";
+    self.navigationItem.title = @"";
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+    self.navigationItem.leftBarButtonItems = @[];
+    self.navigationItem.rightBarButtonItems = @[];
+    if (@available(iOS 16.0, *)) {
+        self.navigationItem.centerItemGroups = @[];
+        self.navigationItem.pinnedTrailingGroup = nil;
+        self.navigationItem.leadingItemGroups = @[];
+        self.navigationItem.trailingItemGroups = @[];
+    }
+    self.toolbarItems = @[];
+}
 
 - (NSDictionary *)p_mergeExtParamsWithOriditalParam:(NSDictionary *)pageParam {
     NSMutableDictionary *mParam = [(pageParam ?: @{}) mutableCopy];
