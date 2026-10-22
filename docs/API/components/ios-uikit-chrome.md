@@ -5,9 +5,8 @@
 | 项 | 要求 |
 |---|---|
 | **KuiklyUI** | **2.30.0+**（含 `UINavigationBar` / `UIToolbar` Kotlin API 与 iOS 侧 `KRUINavigationBar` / `KRUIToolbar` 实现） |
-| **平台** | 仅 **iOS** 生效；Android / 鸿蒙 / Web / 小程序上 DSL 为 **no-op**（不报错、不绘制） |
-| **宿主** | 页面需处于 **`UINavigationController`** 栈中；iOS 工程需编译并链接 `core-render-ios/Extension/AdvancedComps` 下系统栏相关源码（与 Demo `iosApp` 一致） |
-| **检测** | `PlatformUtils.isUIKitChromeSupported()` 等价于当前为 iOS |
+| **平台** | 仅 **iOS** 挂载系统栏；其它端 DSL 为 **no-op**（不创建节点、不报错）。框架内用 `PlatformUtils.isIOS()` 判断，**无**对外 `PlatformUtils.isUIKitChromeSupported()` API |
+| **宿主** | 页面在 **`UINavigationController`** 栈中；链接 `core-render-ios/Extension/AdvancedComps`。Demo 宿主只做两件事：普通页 `fd_prefersNavigationBarHidden=YES`（不露出空导航栏），系统栏页（`UINavigationBarDemo` 或 `pageData.iosUIKitNavigationChrome=true`）设 `fd_prefersNavigationBarHidden=NO` 并清空 `UINavigationItem`；显隐与栏内容由 **FDFullscreenPop + KRUINavigationBar/KRUIToolbar** 负责，宿主勿再反复 `setNavigationBarHidden` |
 
 :::
 

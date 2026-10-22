@@ -640,7 +640,7 @@ private fun ViewContainer<*, *>.navigationDemoScrollBody(ctx: UINavigationBarDem
                     text(
                         "Bar：attr { visibility } → setNavigationBarHidden\n" +
                             "navbarItem / navbarItemContent：visibility → 安装或卸载 UIBarButtonItem\n" +
-                            "fd_prefersNavigationBarHidden 由宿主 VC 配置（组件不改 FD）",
+                            "Demo 宿主：本页 fd_prefersNavigationBarHidden=NO；其它 Kuikly 页为 YES（不露出空导航栏）",
                     )
                     fontSize(12f)
                     fontFamily("Menlo")
