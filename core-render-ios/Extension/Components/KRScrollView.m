@@ -548,9 +548,7 @@ KUIKLY_NESTEDSCROLL_PROTOCOL_PROPERTY_IMP
         _css_hideTopScrollEdgeEffect = css_hideTopScrollEdgeEffect;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 260000
         if (@available(iOS 26.0, *)) {
-            if (css_hideTopScrollEdgeEffect) {
-                self.topEdgeEffect.hidden = [css_hideTopScrollEdgeEffect boolValue];
-            }
+            self.topEdgeEffect.hidden = css_hideTopScrollEdgeEffect.boolValue;
         }
 #endif
     }
@@ -561,9 +559,7 @@ KUIKLY_NESTEDSCROLL_PROTOCOL_PROPERTY_IMP
         _css_hideBottomScrollEdgeEffect = css_hideBottomScrollEdgeEffect;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 260000
         if (@available(iOS 26.0, *)) {
-            if (css_hideBottomScrollEdgeEffect) {
-                self.bottomEdgeEffect.hidden = [css_hideBottomScrollEdgeEffect boolValue];
-            }
+            self.bottomEdgeEffect.hidden = css_hideBottomScrollEdgeEffect.boolValue;
         }
 #endif
     }

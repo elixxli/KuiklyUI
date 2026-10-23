@@ -41,7 +41,6 @@
 - **Kuikly 2.30.0 及以上** 提供该属性；低于该版本的 Kuikly 侧无对应 attr，请勿依赖。
 - **仅 iOS 26.0+** 生效；更低 iOS 版本、Android、鸿蒙、Web 在 2.30.0+ 上调用为 **安全 no-op**（仅下发属性，不改变滚动表现）。
 - `List`、`PageList`、`WaterfallList` 等继承 `ScrollerAttr` 的组件同样支持。
-- 与导航栏上的 `hideScrollEdgeEffects` 不同：后者由导航组件遍历页面子树、且 historically 主要作用于 **顶部**；若只需关掉某个列表底边效果，应在本滚动容器上单独配置 `hideBottomScrollEdgeEffect`。
 :::
 
 | 方法 | 描述 | 类型 | 默认值 |
