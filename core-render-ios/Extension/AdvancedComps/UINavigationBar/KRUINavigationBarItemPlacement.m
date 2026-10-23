@@ -15,6 +15,7 @@
 
 #import "KRUINavigationBarItemPlacement.h"
 #import "KRUINavigationBarKit.h"
+#import "KRUIBarButtonItemKit.h"
 #import <objc/runtime.h>
 
 #if !TARGET_OS_OSX // [macOS]
@@ -46,7 +47,22 @@ static CGFloat KRNavigationInset(UIViewController *viewController, BOOL leading)
     return MAX(0, [objc_getAssociatedObject(viewController, key) doubleValue]);
 }
 
+static UIBarButtonItem *KRMakeLeadingInsetSpacer(CGFloat width) {
+    CGFloat safeWidth = MAX(0, width);
+    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, safeWidth, 44.0)];
+    spacerView.backgroundColor = [UIColor clearColor];
+    spacerView.userInteractionEnabled = NO;
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithCustomView:spacerView];
+    spacer.width = safeWidth;
+    spacer.accessibilityIdentifier = kKRNavLeadingInsetSpacerId;
+    KRUIBarButtonItemApplyGlassBackground(spacer, NO);
+    return spacer;
+}
+
 static UIBarButtonItem *KRMakeEdgeInsetSpacer(NSString *identifier, CGFloat width) {
+    if ([identifier isEqualToString:kKRNavLeadingInsetSpacerId]) {
+        return KRMakeLeadingInsetSpacer(width);
+    }
     UIBarButtonItem *spacer =
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                      target:nil
@@ -481,18 +497,30 @@ static UIBarButtonItem *KRMakeTrailingClusterGapItem(void) {
       viewController:(UIViewController *)viewController
              leading:(BOOL)leading
             animated:(BOOL)animated {
-    NSMutableArray<UIBarButtonItem *> *itemsWithInset = [items mutableCopy] ?: [NSMutableArray array];
+    NSMutableArray<UIBarButtonItem *> *contentItems = [items mutableCopy] ?: [NSMutableArray array];
     CGFloat inset = KRNavigationInset(viewController, leading);
+    if (@available(iOS 16.0, *)) {
+        if (leading) {
+            NSMutableArray<UIBarButtonItemGroup *> *groups = [NSMutableArray array];
+            if (inset > 0.5) {
+                UIBarButtonItem *spacer = KRMakeLeadingInsetSpacer(inset);
+                [groups addObject:[[UIBarButtonItemGroup alloc] initWithBarButtonItems:@[spacer]
+                                                                     representativeItem:nil]];
+            }
+            if (contentItems.count > 0) {
+                [groups addObject:[[UIBarButtonItemGroup alloc] initWithBarButtonItems:contentItems
+                                                                     representativeItem:nil]];
+            }
+            viewController.navigationItem.leadingItemGroups = groups;
+            [viewController.navigationItem setLeftBarButtonItems:nil animated:animated];
+            return;
+        }
+        viewController.navigationItem.trailingItemGroups = @[];
+    }
+    NSMutableArray<UIBarButtonItem *> *itemsWithInset = contentItems;
     if (inset > 0.5) {
         NSString *identifier = leading ? kKRNavLeadingInsetSpacerId : kKRNavTrailingInsetSpacerId;
         [itemsWithInset insertObject:KRMakeEdgeInsetSpacer(identifier, inset) atIndex:0];
-    }
-    if (@available(iOS 16.0, *)) {
-        if (leading) {
-            viewController.navigationItem.leadingItemGroups = @[];
-        } else {
-            viewController.navigationItem.trailingItemGroups = @[];
-        }
     }
     if (leading) {
         [viewController.navigationItem setLeftBarButtonItems:itemsWithInset animated:animated];

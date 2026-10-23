@@ -197,10 +197,6 @@
     return YES;
 }
 
-- (BOOL)p_isLeading {
-    return ![self.css_placement isEqualToString:@"trailing"];
-}
-
 - (NSInteger)p_itemIndex {
     return self.css_index.length ? self.css_index.integerValue : 0;
 }
