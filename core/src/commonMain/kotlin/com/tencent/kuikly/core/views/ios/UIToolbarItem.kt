@@ -98,11 +98,6 @@ open class UIToolbarItemAttr : Attr() {
         return this
     }
 
-    fun kind(kind: String): UIToolbarItemAttr {
-        "kind" with kind
-        return this
-    }
-
     fun spaceWidth(width: Float): UIToolbarItemAttr {
         "spaceWidth" with width.toString()
         return this

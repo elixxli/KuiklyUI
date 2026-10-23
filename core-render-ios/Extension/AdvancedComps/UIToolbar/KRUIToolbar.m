@@ -184,7 +184,7 @@ static UIView *KRToolbarCapsule(UIView *button, UIView *toolbar, UIView *root) {
         return;
     }
     [self p_captureToolbarChromeIfNeeded:viewController];
-    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
     if (tint) {
         viewController.navigationController.toolbar.tintColor = tint;
     }

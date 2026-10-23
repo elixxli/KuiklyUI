@@ -171,7 +171,7 @@ UIToolbar {
 |---|---|
 | `Item` | 普通按钮（symbol / src / title） |
 | `FlexibleSpace` | 弹性空白 |
-| `FixedSpace` | 固定宽度空白（配合 `width`） |
+| `FixedSpace` | 固定宽度空白（配合 `spaceWidth`） |
 
 `toolbarItemContent` 可挂载自定义按钮内容，属性与 `navbarItem` 类似（`index`、`visibility`、`axis` 等）。
 

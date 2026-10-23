@@ -82,24 +82,6 @@ UIScrollView *KRUINavigationBarScrollViewForNativeRef(id hr_rootView, NSInteger 
     return nil;
 }
 
-void KRUINavigationBarApplyBarButtonItemAxis(UIBarButtonItem *item, NSString *axis) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 270100
-    if (@available(iOS 27.1, *)) {
-        NSString *value = axis.lowercaseString ?: @"";
-        if ([value isEqualToString:@"horizontalonly"]) {
-            item.axisBehavior = UIBarButtonItemAxisBehaviorHorizontalOnly;
-        } else if ([value isEqualToString:@"verticalpreferred"]) {
-            item.axisBehavior = UIBarButtonItemAxisBehaviorVerticalPreferred;
-        } else {
-            item.axisBehavior = UIBarButtonItemAxisBehaviorAutomatic;
-        }
-    }
-#else
-    (void)item;
-    (void)axis;
-#endif
-}
-
 NSInteger KRUINavigationBarButtonItemGroupId(UIBarButtonItem *item) {
     id value = objc_getAssociatedObject(item, kKRNavItemGroupKey);
     return [value isKindOfClass:[NSNumber class]] ? [(NSNumber *)value integerValue] : 0;

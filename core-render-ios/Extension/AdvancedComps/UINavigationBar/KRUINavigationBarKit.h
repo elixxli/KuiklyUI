@@ -41,9 +41,6 @@ CGFloat KRUINavigationBarVerticalTrailingTopInset(UIViewController *viewControll
 /// `host` 用于异步块执行前校验存活，避免写已释放的 `scheduledToken`（`&_syncFlushScheduled`）。
 void KRUINavigationBarScheduleCoalescedMainFlush(id host, BOOL *scheduledToken, dispatch_block_t block);
 
-/// iOS 27.1+ `UIBarButtonItem.axisBehavior`（Duo 竖栏）。
-void KRUINavigationBarApplyBarButtonItemAxis(UIBarButtonItem *item, NSString *axis);
-
 /// Trailing `itemGroup` / 排序槽位（勿复用 `UIBarButtonItem.tag`）。
 NSInteger KRUINavigationBarButtonItemGroupId(UIBarButtonItem *item);
 void KRUINavigationBarSetBarButtonItemGroupId(UIBarButtonItem *item, NSInteger group);

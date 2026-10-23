@@ -744,7 +744,10 @@ static NSString *KRNormalizedFontWeight(NSString *weight) {
         }
     }
     if (title.length > 0) {
-        return tint ?: [UIColor labelColor];
+        if (@available(iOS 13.0, *)) {
+            return tint ?: [UIColor labelColor];
+        }
+        return tint ?: [UIColor blackColor];
     }
     return [UIColor clearColor];
 }
@@ -989,7 +992,7 @@ static NSString *KRNormalizedFontWeight(NSString *weight) {
             item.titleView = titleView;
         } else if (shiftTitle && title.length > 0 && !showLargeTitle) {
             UINavigationBar *bar = viewController.navigationController.navigationBar;
-            UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+            UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
             UIColor *titleColor = [self p_titleColorForTitle:title tint:tint];
             NSDictionary *titleAttributes = [self p_textAttributesWithFont:[self p_fontForSizeString:self.css_titleFontSize defaultSize:17]
                                                                      color:titleColor];
@@ -1124,9 +1127,16 @@ static NSString *KRNormalizedFontWeight(NSString *weight) {
                                                          | KRUINavigationBarDirtyTitleTextAttributes
                                                          | KRUINavigationBarDirtyAppearance);
     if (bar && barVisualDirty) {
-        UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+        UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
         UIColor *titleColor = [self p_titleColorForTitle:customTitle ? @"" : title tint:tint];
-        UIColor *subtitleColor = self.css_titleColor ? titleColor : [UIColor secondaryLabelColor];
+        UIColor *subtitleColor = titleColor;
+        if (!self.css_titleColor) {
+            if (@available(iOS 13.0, *)) {
+                subtitleColor = [UIColor secondaryLabelColor];
+            } else {
+                subtitleColor = [UIColor grayColor];
+            }
+        }
         NSDictionary *titleAttributes = nil;
         NSDictionary *largeAttributes = nil;
         NSDictionary *subtitleAttributes = nil;

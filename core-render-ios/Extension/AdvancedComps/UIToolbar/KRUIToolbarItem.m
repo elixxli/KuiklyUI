@@ -244,7 +244,7 @@
         return NO;
     }
     item.accessibilityLabel = self.css_title.length ? self.css_title : self.css_symbol;
-    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
     if (tint) {
         item.tintColor = tint;
     }
@@ -323,7 +323,7 @@
                 [weakSelf p_onItem:action.sender];
             }];
         }
-        UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+        UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
         if (tint) {
             item.tintColor = tint;
         }

@@ -18,6 +18,7 @@
 #import "KRComponentDefine.h"
 #import "KRUINavigationBarItemPlacement.h"
 #import "KRUINavigationBarKit.h"
+#import "KRUIBarButtonItemKit.h"
 #import "KuiklyRenderView.h"
 #import "NSObject+KR.h"
 
@@ -130,7 +131,7 @@ static const CGFloat kKRNavItemContentStandardSide = 44.0;
 - (void)setCss_axis:(NSString *)css_axis {
     _css_axis = [css_axis copy];
     if (self.barButtonItem) {
-        KRUINavigationBarApplyBarButtonItemAxis(self.barButtonItem, _css_axis ?: @"automatic");
+        KRUIBarButtonItemApplyAxis(self.barButtonItem, _css_axis ?: @"automatic");
         return;
     }
     [self p_enqueueNavigationItemContentApply];
@@ -275,7 +276,7 @@ static const CGFloat kKRNavItemContentStandardSide = 44.0;
     item.accessibilityIdentifier = self.itemIdentifier;
     item.accessibilityLabel = self.css_title.length ? self.css_title : @"custom";
     KRUINavigationBarSetBarButtonItemSortIndex(item, [self p_itemIndex]);
-    KRUINavigationBarApplyBarButtonItemAxis(item, self.css_axis ?: @"automatic");
+    KRUIBarButtonItemApplyAxis(item, self.css_axis ?: @"automatic");
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 260000
     if (@available(iOS 26.0, *)) {
         item.sharesBackground = YES;
@@ -364,7 +365,7 @@ static const CGFloat kKRNavItemContentStandardSide = 44.0;
     if ([self p_structureMatchesAppliedState]) {
         [self p_attachContentToContainer];
         [self p_updateCustomViewLayoutIfAttached];
-        KRUINavigationBarApplyBarButtonItemAxis(self.barButtonItem, self.css_axis ?: @"automatic");
+        KRUIBarButtonItemApplyAxis(self.barButtonItem, self.css_axis ?: @"automatic");
         return;
     }
     self.syncingAttachment = YES;

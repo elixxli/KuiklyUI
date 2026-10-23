@@ -18,6 +18,7 @@
 #import "KRUIBarImage.h"
 #import "KRUINavigationBarItemPlacement.h"
 #import "KRUINavigationBarKit.h"
+#import "KRUIBarButtonItemKit.h"
 #import "KuiklyRenderView.h"
 #import "NSObject+KR.h"
 
@@ -128,7 +129,7 @@
 - (void)setCss_axis:(NSString *)css_axis {
     _css_axis = [css_axis copy];
     if (self.barButtonItem) {
-        KRUINavigationBarApplyBarButtonItemAxis(self.barButtonItem, _css_axis);
+        KRUIBarButtonItemApplyAxis(self.barButtonItem, _css_axis);
         return;
     }
     [self p_enqueueNavigationItemApply];
@@ -273,11 +274,11 @@
     item.image = [self p_configuredImageFromResolved:image];
     NSString *symbol = self.css_symbol.length ? self.css_symbol : @"ellipsis.circle";
     item.accessibilityLabel = self.css_title.length ? self.css_title : symbol;
-    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
     if (tint) {
         item.tintColor = tint;
     }
-    KRUINavigationBarApplyBarButtonItemAxis(item, self.css_axis);
+    KRUIBarButtonItemApplyAxis(item, self.css_axis);
     self.appliedImageKey = [self p_imageResolveKey];
 }
 
@@ -295,7 +296,7 @@
             [weakSelf p_onItem:action.sender];
         }];
     }
-    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : [UIColor blackColor];
+    UIColor *tint = self.css_tintColor ? [UIView css_color:self.css_tintColor] : nil;
     if (tint) {
         item.tintColor = tint;
     }
@@ -305,7 +306,7 @@
         item.hidesSharedBackground = NO;
     }
 #endif
-    KRUINavigationBarApplyBarButtonItemAxis(item, self.css_axis);
+    KRUIBarButtonItemApplyAxis(item, self.css_axis);
     item.accessibilityIdentifier = self.itemIdentifier;
     item.accessibilityLabel = self.css_title.length ? self.css_title : symbol;
     KRUINavigationBarSetBarButtonItemSortIndex(item, [self p_itemIndex]);

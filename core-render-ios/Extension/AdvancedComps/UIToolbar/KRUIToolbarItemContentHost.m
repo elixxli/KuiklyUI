@@ -32,7 +32,6 @@ static const CGFloat kKRToolbarItemContentMinHeight = 36.0;
 @property (nonatomic, copy) NSString *css_title;
 @property (nonatomic, copy) NSString *css_index;
 @property (nonatomic, copy) NSString *css_axis;
-@property (nonatomic, strong) id css_show;
 @property (nonatomic, strong) UIBarButtonItem *barButtonItem;
 @property (nonatomic, copy) NSString *itemIdentifier;
 @property (nonatomic, assign) BOOL syncingAttachment;
@@ -55,7 +54,6 @@ static const CGFloat kKRToolbarItemContentMinHeight = 36.0;
         _css_title = @"";
         _css_index = @"0";
         _css_axis = @"automatic";
-        _css_show = @"true";
         _itemIdentifier = [NSString stringWithFormat:@"kr_toolbar_content_%p", self];
     }
     return self;
@@ -103,11 +101,6 @@ static const CGFloat kKRToolbarItemContentMinHeight = 36.0;
 
 - (void)setCss_axis:(NSString *)css_axis {
     _css_axis = [css_axis copy];
-    [self p_syncToToolbar];
-}
-
-- (void)setCss_show:(id)css_show {
-    _css_show = css_show;
     [self p_syncToToolbar];
 }
 
@@ -167,9 +160,6 @@ static const CGFloat kKRToolbarItemContentMinHeight = 36.0;
 - (BOOL)p_shouldShow {
     if (self.css_visibility != nil) {
         return self.css_visibility.boolValue;
-    }
-    if (self.css_show) {
-        return [UIView css_bool:self.css_show];
     }
     return YES;
 }
