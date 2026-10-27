@@ -46,10 +46,6 @@ class RenderScriptBlur(context: Context) : IBlur {
     private var hadDestroy = false
 
     override fun blur(bitmap: Bitmap, radius: Float): Bitmap {
-        // 已销毁后return：避免 RS Context 失效导致 RSInvalidStateException
-        if (hadDestroy) {
-            return bitmap
-        }
         // rs要求半径在(0 < r <= 25)
         // 1.5f为放大系数，用于对齐ScriptBlur与EffectBlur的模糊半径效果
         val r = (radius * 1.5f).let { scaledRadius ->
