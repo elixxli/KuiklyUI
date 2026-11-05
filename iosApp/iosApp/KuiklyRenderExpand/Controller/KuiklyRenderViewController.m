@@ -14,6 +14,7 @@
  */
 
 #import "KuiklyRenderViewController.h"
+#import "KuiklyRenderView.h"
 #import "KuiklyRenderViewControllerBaseDelegator.h"
 #import "KuiklyRenderContextProtocol.h"
 #import "KuiklyRenderCore.h"
@@ -29,6 +30,8 @@
 static NSString * const kTurboDisplayTestPageName = @"TurboDisplayAppLoadTestPage";
 /// 挂起Diff测试页面名称
 static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
+static NSString * const kNativeTabBarHostPageName = @"NativeTabBarHost";
+static NSString * const kNativeTabBarSafeAreaPagerEvent = @"NativeTabBarSafeAreaInsets";
 @interface Delegator  : NSObject<KRControllerDelegatorLifeCycleProtocol>
 
 
@@ -207,6 +210,17 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
     NSLog(@"onPageLoadComplete performance data:%@", data);
 }
 
+- (void)sendPagerEvent:(NSString *)pagerEvent data:(NSDictionary *)data {
+    [_delegator sendWithEvent:pagerEvent data:data ?: @{}];
+}
+
+- (void)syncKuiklyLayoutToCurrentBounds {
+    if (!self.isViewLoaded) {
+        return;
+    }
+    [self viewDidLayoutSubviews];
+}
+
 #pragma mark - private
 
 /// 当前页是否使用 Kuikly `UINavigationBar` / `UIToolbar`（Demo：`UINavigationBarDemo` 或 pageData 开关）。
@@ -332,11 +346,17 @@ static NSString * const kTBDeferDiffTestPageName = @"TBDeferDiffTestPage";
 /// 控制 Native -> Kotlin 事件是否以同步方式发送，避免事件异步派发后晚于当前原生布局/上屏时机生效。
 /// 典型场景：页面旋转、分屏或宿主容器尺寸突变时，可对 `rootViewSizeDidChanged` 返回 YES，避免尺寸变化晚一帧生效导致白屏。
 - (BOOL)syncSendEvent:(NSString *)event {
-    // 若页面尺寸发生变化时，出现白屏，可恢复以下被注释的代码
-//    if ([event isEqualToString:@"rootViewSizeDidChanged"]) {
-//        return YES;
-//    }
-    
+    NSString *pageName = _pageName ?: @"";
+    NSRange query = [pageName rangeOfString:@"?"];
+    if (query.location != NSNotFound) {
+        pageName = [pageName substringToIndex:query.location];
+    }
+    if ([pageName isEqualToString:kNativeTabBarHostPageName]) {
+        if ([event isEqualToString:KRRootViewSizeDidChangedEventKey]
+            || [event isEqualToString:kNativeTabBarSafeAreaPagerEvent]) {
+            return YES;
+        }
+    }
     return NO;
 }
 

@@ -26,6 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithPageName:(NSString *)pageName pageData:(NSDictionary *)pageData;
 
+/// Native → 当前 Kuikly 页：经 delegator [sendWithEvent] 派发 Pager 事件（Kotlin `onReceivePagerEvent`）。
+- (void)sendPagerEvent:(NSString *)pagerEvent data:(NSDictionary *)data;
+
+/// 宿主改 frame 后手动同步 delegator / renderView（child VC 场景旋转时必需）。
+- (void)syncKuiklyLayoutToCurrentBounds;
+
 @end
 
 NS_ASSUME_NONNULL_END

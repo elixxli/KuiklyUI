@@ -151,6 +151,16 @@ internal class BridgeModule : Module() {
         return syncCallNativeMethod(READ_ASSET_FILE_SYNC, params, null)
     }
 
+    /** NativeTabBarHost：PageList 横滑切页后同步 UITabBar.selectedIndex。 */
+    fun syncNativeTabBarIndex(index: Int) {
+        if (pageData?.isIOS != true) {
+            return
+        }
+        val params = JSONObject()
+        params.put("index", index)
+        callNativeMethod(SYNC_NATIVE_TAB_BAR_INDEX, params, null)
+    }
+
     private fun callNativeMethod(methodName: String, data: JSONObject?, callbackFn: CallbackFn?) {
         toNative(
             false,
@@ -208,6 +218,7 @@ internal class BridgeModule : Module() {
         const val GET_LOCAL_IMAGE_PATH = "getLocalImagePath"
         const val READ_ASSET_FILE = "readAssetFile"
         const val READ_ASSET_FILE_SYNC = "readAssetFileSync"
+        const val SYNC_NATIVE_TAB_BAR_INDEX = "syncNativeTabBarIndex"
     }
 
 }

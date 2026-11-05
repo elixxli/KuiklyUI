@@ -17,6 +17,7 @@
 #import "NSObject+RIJCategory.h"
 
 #import "KuiklyRenderViewController.h"
+#import "KuiklyNativeTabBarController.h"
 #import "KuiklyContextParam.h"
 #import "KuiklyRenderView.h"
 #import <SDWebImageManager.h>
@@ -66,6 +67,18 @@
     NSDictionary *params = [args[KR_PARAM_KEY] rij_stringToDictionary];
     NSString *content = params[@"content"];
     NSLog(@"KuiklyRender:%@", content);
+}
+
+- (void)syncNativeTabBarIndex:(NSDictionary *)args {
+    NSDictionary *params = [args[KR_PARAM_KEY] rij_stringToDictionary];
+    id indexValue = params[@"index"];
+    if (![indexValue isKindOfClass:[NSNumber class]]) {
+        return;
+    }
+    UIViewController *host = self.hr_rootView.rij_viewController.parentViewController;
+    if ([host isKindOfClass:[KuiklyNativeTabBarController class]]) {
+        [(KuiklyNativeTabBarController *)host syncTabBarSelectedIndexFromKuikly:[(NSNumber *)indexValue integerValue]];
+    }
 }
 
 - (id)testArray:(NSDictionary *)args {
